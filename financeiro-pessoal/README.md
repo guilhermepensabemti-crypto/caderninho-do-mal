@@ -1,0 +1,1 @@
+# Meu Financeiro\n\nDashboard pessoal para controlar entradas, gastos, contas, parcelamentos e trabalhos/renda extra.\n\nOs dados deste protótipo ficam salvos no navegador usando localStorage.\n\nArquivos: `index.html`, `style.css` e `script.js`.\n

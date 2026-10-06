@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1677ff">
+<title>Meu Financeiro</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<aside class="sidebar">
+  <div class="brand">Meu<span>Financeiro</span></div>
+  <nav>
+    <button class="nav active" data-view="dashboard">📊 Dashboard</button>
+    <button class="nav" data-view="movimentacoes">💰 Entradas e gastos</button>
+    <button class="nav" data-view="contas">📅 Contas do mês</button>
+    <button class="nav" data-view="parcelas">💳 Parcelamentos</button>
+    <button class="nav" data-view="trabalhos">💼 Trabalhos</button>
+  </nav>
+</aside>
+
+<main>
+<header class="topbar">
+  <div><p class="eyebrow">Controle pessoal</p><h1>Meu financeiro</h1></div>
+  <div class="month"><button id="prevMonth">‹</button><strong id="monthLabel"></strong><button id="nextMonth">›</button></div>
+</header>
+
+<section id="dashboard" class="view active">
+  <div class="cards">
+    <article><span>Entradas</span><strong id="income">R$ 0,00</strong></article>
+    <article><span>Gastos</span><strong id="expense">R$ 0,00</strong></article>
+    <article><span>Saldo</span><strong id="balance">R$ 0,00</strong></article>
+    <article><span>A pagar</span><strong id="pending">R$ 0,00</strong></article>
+  </div>
+  <div class="grid">
+    <section class="panel">
+      <div class="panel-head"><div><h2>Quanto posso gastar?</h2><p>Saldo menos contas e parcelas ainda pendentes.</p></div><strong id="available" class="big">R$ 0,00</strong></div>
+      <div class="bar"><i id="incomeBar"></i><b id="expenseBar"></b></div>
+      <div class="legend"><span class="in">● Entradas</span><span class="out">● Gastos</span></div>
+    </section>
+    <section class="panel"><h2>Resumo</h2><div id="summary" class="summary"></div></section>
+  </div>
+  <section class="panel"><div class="panel-head"><h2>Próximas contas</h2><button class="link" data-view-target="contas">Ver contas</button></div><div id="nextBills"></div></section>
+</section>
+
+<section id="movimentacoes" class="view">
+  <section class="panel">
+    <div class="panel-head"><div><h2>Adicionar entrada ou gasto</h2><p>Registre tudo que entrou ou saiu do seu dinheiro.</p></div></div>
+    <form id="movementForm" class="form">
+      <select id="movementType"><option value="in">Entrada</option><option value="out">Gasto</option></select>
+      <input id="movementDescription" placeholder="Ex.: Salário, mercado..." required>
+      <input id="movementValue" type="number" min="0.01" step="0.01" placeholder="Valor" required>
+      <input id="movementDate" type="date" required>
+      <select id="movementCategory"><option>Salário</option><option>Trabalho</option><option>Alimentação</option><option>Transporte</option><option>Moradia</option><option>Lazer</option><option>Saúde</option><option>Outros</option></select>
+      <select id="movementPayment"><option>Pix</option><option>Dinheiro</option><option>Débito</option><option>Crédito</option><option>Transferência</option></select>
+      <button class="primary">Adicionar</button>
+    </form>
+  </section>
+  <section class="panel"><h2>Lançamentos</h2><div id="movementList"></div></section>
+</section>
+
+<section id="contas" class="view">
+  <section class="panel">
+    <h2>Adicionar conta do mês</h2>
+    <form id="billForm" class="form">
+      <input id="billName" placeholder="Ex.: Internet" required>
+      <input id="billValue" type="number" min="0.01" step="0.01" placeholder="Valor" required>
+      <input id="billDate" type="date" required>
+      <select id="billCategory"><option>Moradia</option><option>Internet</option><option>Energia</option><option>Água</option><option>Telefone</option><option>Transporte</option><option>Saúde</option><option>Outros</option></select>
+      <label class="check"><input id="billRecurring" type="checkbox"> Repetir nos próximos meses</label>
+      <button class="primary">Adicionar conta</button>
+    </form>
+  </section>
+  <section class="panel"><h2>Contas de <span id="billMonth"></span></h2><div id="billList"></div></section>
+</section>
+
+<section id="parcelas" class="view">
+  <section class="panel">
+    <h2>Adicionar parcelamento</h2>
+    <form id="installmentForm" class="form">
+      <input id="installmentName" placeholder="Ex.: Celular" required>
+      <input id="installmentTotal" type="number" min="0.01" step="0.01" placeholder="Valor total" required>
+      <input id="installmentCount" type="number" min="2" max="60" placeholder="Nº de parcelas" required>
+      <input id="installmentDate" type="date" required>
+      <label class="check"><input id="installmentCredit" type="checkbox" checked> Cartão de crédito</label>
+      <button class="primary">Criar parcelas</button>
+    </form>
+  </section>
+  <section class="panel"><h2>Parcelas do mês</h2><div id="installmentList"></div></section>
+</section>
+
+<section id="trabalhos" class="view">
+  <section class="panel">
+    <h2>Adicionar trabalho / renda extra</h2>
+    <form id="jobForm" class="form">
+      <input id="jobName" placeholder="Ex.: Formatação de notebook" required>
+      <input id="jobValue" type="number" min="0.01" step="0.01" placeholder="Valor recebido" required>
+      <input id="jobDate" type="date" required>
+      <button class="primary">Registrar trabalho</button>
+    </form>
+  </section>
+  <section class="panel"><h2>Trabalhos do mês</h2><div id="jobList"></div></section>
+</section>
+<div id="toast" role="status" aria-live="polite"></div>
+</main>
+<script src="script.js"></script>
+</body>
+</html>
