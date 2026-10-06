@@ -1,19 +1,108 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Controle de Estoque — Workplace</title><link rel="stylesheet" href="./assets/css/style.css?v=21"><style>.headerLogo{width:72px;height:72px;display:block;flex:0 0 72px;border-radius:50%;object-fit:cover;box-shadow:0 5px 18px rgba(0,0,0,.22);margin-left:4px}.headerActions .headerLogo{order:10}@media(max-width:700px){header{padding:10px 14px}.headerActions{width:auto;margin-left:auto}.headerLogo{width:58px;height:58px;flex-basis:58px}.authStatus{display:none}}</style></head>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1677ff">
+<meta name="description" content="Controle financeiro pessoal Guitoria">
+<title>Financeiro Pessoal Guitoria</title>
+<link rel="stylesheet" href="style.css">
+</head>
 <body>
-<header><div class="headerInner"><div class="headerText"><h1>Controle de Estoque — <span id="headerWorkspace">Workplace MG2</span></h1><p>Visualização pública do estoque • Login necessário somente para Entrada e Saída</p></div><div class="headerActions"><img class="headerLogo" src="./assets/img/logo-stefanini.svg" alt="Stefanini"><button type="button" id="loginButton" class="blue">🔐 Login</button><button type="button" id="mg2Logout" class="logoutBtn" style="display:none">Sair</button><button type="button" id="themeToggle" class="themeToggle" aria-label="Mudar para modo dark" title="Mudar para modo dark">🌙</button></div></div></header>
+<aside class="sidebar">
+  <div class="brand">Guitoria<span> Financeiro</span></div>
+  <nav>
+    <button class="nav active" data-view="dashboard">📊 Dashboard</button>
+    <button class="nav" data-view="movimentacoes">💰 Entradas e gastos</button>
+    <button class="nav" data-view="contas">📅 Contas do mês</button>
+    <button class="nav" data-view="parcelas">💳 Parcelamentos</button>
+    <button class="nav" data-view="trabalhos">💼 Trabalhos</button>
+  </nav>
+</aside>
 <main>
-<div id="technicianNotificationArea"></div>
-<div class="topbar"><div class="workspaceBox"><label for="workspaceSelect">Selecionar estoque</label><select id="workspaceSelect" aria-label="Selecionar estoque"><option value="mg2">Workplace MG2</option><option value="criacao">Prédio de Criação</option><option value="pdp">🛠️ Preparação de Máquinas (PDP)</option></select></div></div>
-<div class="nav"><button type="button" class="green" data-action="entry">➕ Entrada</button><button type="button" class="red" data-action="exit">➖ Saída</button></div>
-<section id="stock"><div class="card"><h2>Estoque disponível — <span class="titleWorkspace" id="stockWorkspace">Workplace MG2</span></h2><div class="muted">A visualização dos equipamentos é pública. Selecione outro estoque acima para visualizar o espaço desejado. Para movimentar o estoque, clique em <b>Login</b> e entre com o usuário do Workplace desejado.</div></div><div class="stats"><div class="stat"><span>Itens disponíveis</span><b id="total">0</b></div><div class="stat"><span>Tipos</span><b id="types">0</b></div><div class="stat"><span>Atualização</span><b id="updated">—</b></div></div><div class="card"><div class="filters"><input id="search" placeholder="Pesquisar ativo, equipamento, colaborador ou chamado..."><select id="filter"><option value="">Todos os equipamentos</option></select></div><div id="table"></div></div><div class="card calendarCard"><h2>📅 Calendário de movimentações</h2><div class="muted">Movimentações do espaço selecionado. Pesquise por ativo ou chamado para filtrar os registros.</div><div id="calendarSearchWrap" style="margin:12px 0"><input id="movementSearch" placeholder="🔎 Pesquisar por ativo ou chamado" autocomplete="off"></div><div id="calendar" class="calendar"></div><div id="dayMovements" class="dayMovements"></div></div></section>
-<section id="entry"><div class="card"><h2>➕ Registrar entrada</h2><div class="autoInfo">Espaço selecionado: <b id="entryWorkspace"></b></div><div class="grid"><div><label for="ec">Chamado</label><input id="ec"></div><div><label for="ee">Equipamento</label><input id="ee" placeholder="Ex.: Notebook, Monitor, Celular"></div><div><label for="ea">Ativo</label><input id="ea"></div><div><label for="ecol">Colaborador</label><input id="ecol"></div><div><label for="et">Técnico responsável</label><input id="et"></div></div><label class="check"><input type="checkbox" id="ecarregador"><span>🔌 Equipamento está com carregador</span></label><div id="chipWrap" class="subcard hidden"><label class="check"><input type="checkbox" id="echip"><span>📱 Celular está com chip?</span></label><div id="lineWrap" class="hidden"><label for="elinha">Número da linha do chip</label><input id="elinha" type="tel" inputmode="tel" placeholder="Ex.: (31) 99999-9999"></div></div><div class="actions"><button type="button" class="green" data-action="move-entry">Registrar entrada</button><button type="button" data-action="stock">Cancelar</button></div><div id="emsg" class="msg"></div></div></section>
-<section id="exit"><div class="card"><h2>➖ Registrar saída</h2><div class="autoInfo">Espaço selecionado: <b id="exitWorkspace"></b></div><div class="muted">Escolha se deseja pesquisar pelo número do ativo ou pelo número do chamado. Os dados da entrada, carregador e chip serão reconhecidos automaticamente.</div><div class="grid"><div><label for="sc">Chamado da entrada</label><input id="sc" readonly></div><div><label for="sa">Ativo</label><input id="sa" placeholder="Digite o número do ativo"></div><div><label>🔌 Carregador</label><label class="check"><input type="checkbox" id="scarregador" disabled><span id="chargerText">Aguardando ativo...</span></label></div><div><label for="se">Equipamento</label><input id="se" readonly></div><div><label for="schip">📱 Chip</label><input id="schip" readonly></div><div><label for="slinha">📞 Linha do chip</label><input id="slinha" readonly></div><div><label for="scol">Colaborador da entrada</label><input id="scol" readonly></div><div><label for="sent">Técnico da entrada</label><input id="sent" readonly></div><div><label for="st">Técnico responsável pela saída</label><input id="st" placeholder="Ex.: Guilherme"></div></div><div id="autoInfo" class="autoInfo">Aguardando a pesquisa...</div><div class="actions"><button type="button" class="red" data-action="move-exit">Registrar saída</button><button type="button" data-action="stock">Cancelar</button></div><div id="smsg" class="msg"></div></div></section>
-<section id="pdp"><div class="card"><h2>🛠️ Preparação de Máquinas — PDP</h2><div class="muted">Controle de máquinas em preparação e liberação.</div></div><div class="card"><h2>Máquinas em preparação</h2><div class="pdpHeader"><span>Chamado</span><span>Ativo</span><span>Equipamento</span><span>Colaborador</span><span>Técnico</span><span>Status</span></div><div id="pdpTable"><div class="muted">Nenhuma máquina em preparação.</div></div></div></section>
+<header class="topbar">
+  <div><p class="eyebrow">Controle pessoal</p><h1>Financeiro Pessoal Guitoria</h1></div>
+  <div class="month"><button id="prevMonth" aria-label="Mês anterior">‹</button><strong id="monthLabel"></strong><button id="nextMonth" aria-label="Próximo mês">›</button></div>
+</header>
+
+<section id="dashboard" class="view active">
+  <div class="cards">
+    <article><span>Entradas</span><strong id="income">R$ 0,00</strong></article>
+    <article><span>Gastos</span><strong id="expense">R$ 0,00</strong></article>
+    <article><span>Saldo</span><strong id="balance">R$ 0,00</strong></article>
+    <article><span>A pagar</span><strong id="pending">R$ 0,00</strong></article>
+  </div>
+  <div class="grid">
+    <section class="panel">
+      <div class="panel-head"><div><h2>Quanto posso gastar?</h2><p>Saldo menos contas e parcelas ainda pendentes.</p></div><strong id="available" class="big">R$ 0,00</strong></div>
+      <div class="bar"><i id="incomeBar"></i><b id="expenseBar"></b></div>
+      <div class="legend"><span class="in">● Entradas</span><span class="out">● Gastos</span></div>
+    </section>
+    <section class="panel"><h2>Resumo</h2><div id="summary" class="summary"></div></section>
+  </div>
+  <section class="panel"><div class="panel-head"><h2>Próximas contas</h2><button class="link" data-view-target="contas">Ver contas</button></div><div id="nextBills"></div></section>
+</section>
+
+<section id="movimentacoes" class="view">
+  <section class="panel">
+    <div class="panel-head"><div><h2>Adicionar entrada ou gasto</h2><p>Registre tudo que entrou ou saiu do seu dinheiro.</p></div></div>
+    <form id="movementForm" class="form">
+      <select id="movementType"><option value="in">Entrada</option><option value="out">Gasto</option></select>
+      <input id="movementDescription" placeholder="Ex.: Salário, mercado..." required>
+      <input id="movementValue" type="number" min="0.01" step="0.01" placeholder="Valor" required>
+      <input id="movementDate" type="date" required>
+      <select id="movementCategory"><option>Salário</option><option>Trabalho</option><option>Alimentação</option><option>Transporte</option><option>Moradia</option><option>Lazer</option><option>Saúde</option><option>Outros</option></select>
+      <select id="movementPayment"><option>Pix</option><option>Dinheiro</option><option>Débito</option><option>Crédito</option><option>Transferência</option></select>
+      <button class="primary">Adicionar</button>
+    </form>
+  </section>
+  <section class="panel"><h2>Lançamentos</h2><div id="movementList"></div></section>
+</section>
+
+<section id="contas" class="view">
+  <section class="panel">
+    <h2>Adicionar conta do mês</h2>
+    <form id="billForm" class="form">
+      <input id="billName" placeholder="Ex.: Internet" required>
+      <input id="billValue" type="number" min="0.01" step="0.01" placeholder="Valor" required>
+      <input id="billDate" type="date" required>
+      <select id="billCategory"><option>Moradia</option><option>Internet</option><option>Energia</option><option>Água</option><option>Telefone</option><option>Transporte</option><option>Saúde</option><option>Outros</option></select>
+      <label class="check"><input id="billRecurring" type="checkbox"> Repetir nos próximos meses</label>
+      <button class="primary">Adicionar conta</button>
+    </form>
+  </section>
+  <section class="panel"><h2>Contas de <span id="billMonth"></span></h2><div id="billList"></div></section>
+</section>
+
+<section id="parcelas" class="view">
+  <section class="panel">
+    <h2>Adicionar parcelamento</h2>
+    <form id="installmentForm" class="form">
+      <input id="installmentName" placeholder="Ex.: Celular" required>
+      <input id="installmentTotal" type="number" min="0.01" step="0.01" placeholder="Valor total" required>
+      <input id="installmentCount" type="number" min="2" max="60" placeholder="Nº de parcelas" required>
+      <input id="installmentDate" type="date" required>
+      <label class="check"><input id="installmentCredit" type="checkbox" checked> Cartão de crédito</label>
+      <button class="primary">Criar parcelas</button>
+    </form>
+  </section>
+  <section class="panel"><h2>Parcelas do mês</h2><div id="installmentList"></div></section>
+</section>
+
+<section id="trabalhos" class="view">
+  <section class="panel">
+    <h2>Adicionar trabalho / renda extra</h2>
+    <form id="jobForm" class="form">
+      <input id="jobName" placeholder="Ex.: Formatação de notebook" required>
+      <input id="jobValue" type="number" min="0.01" step="0.01" placeholder="Valor recebido" required>
+      <input id="jobDate" type="date" required>
+      <button class="primary">Registrar trabalho</button>
+    </form>
+  </section>
+  <section class="panel"><h2>Trabalhos do mês</h2><div id="jobList"></div></section>
+</section>
+<div id="toast" role="status" aria-live="polite"></div>
 </main>
-<div id="pdpMoveModal" class="loginModal hidden"><div class="loginBox card"><h2>↗ Movimentar equipamento</h2><p id="pdpMoveInfo" class="muted"></p><label for="pdpMoveDestination">Estoque de destino</label><select id="pdpMoveDestination"><option value="">Selecione o estoque</option><option value="mg2">Workplace MG2</option><option value="criacao">Prédio de Criação</option></select><div id="pdpMoveMsg" class="msg"></div><div class="actions"><button type="button" class="blue" onclick="PDP.move(document.getElementById('pdpMoveModal').dataset.id,document.getElementById('pdpMoveDestination').value)">Confirmar movimentação</button><button type="button" onclick="document.getElementById('pdpMoveModal').classList.add('hidden')">Cancelar</button></div></div></div>
-<div id="mg2LoginModal" class="loginModal hidden"><div class="loginBox card"><h2>🔐 Login do Workplace</h2><p class="muted">Informe o usuário e a senha. O usuário define qual espaço Workplace será acessado.</p><label for="mg2User">Usuário</label><input id="mg2User" autocomplete="username" placeholder="Ex.: mg2 ou criacao"><label for="mg2Pass">Senha</label><input id="mg2Pass" type="password" autocomplete="current-password" placeholder="Senha"><div class="muted" style="margin-top:10px">MG2: <b>mg2</b> • Criação: <b>criacao</b> • PDP: <b>pdp</b></div><div id="mg2LoginMsg" class="msg"></div><div class="actions"><button type="button" class="blue" id="mg2LoginButton">Entrar</button><button type="button" id="loginCancelButton">Cancelar</button></div></div></div>
-<div id="pushTechnicianModal" class="loginModal hidden"><div class="loginBox card"><h2>🔔 Quem está usando?</h2><p class="muted">Selecione seu nome para receber notificações de equipamentos liberados.</p><label for="pushTechnicianSelect">Técnico</label><select id="pushTechnicianSelect"><option value="">Carregando...</option></select><div id="pushTechnicianMsg" class="msg"></div><div class="actions"><button type="button" class="blue" id="pushTechnicianConfirm">Ativar notificações</button></div></div></div>
-<script src="./assets/js/workspaces.js?v=18"></script><script src="./assets/js/estoque.js?v=18"></script><script src="./assets/js/movimentacoes.js?v=19"></script><script src="./assets/js/auth.js?v=19"></script><script src="./assets/js/calendario.js?v=18"></script><script src="./assets/js/pdp.js?v=20"></script><script src="./assets/js/webpush.js?v=2"></script><script src="./assets/js/app.js?v=19"></script>
-</body></html>
+<script src="script.js"></script>
+</body>
+</html>
