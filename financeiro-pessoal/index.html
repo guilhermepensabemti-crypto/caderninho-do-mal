@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#1677ff">
-<title>Meu Financeiro</title>
+<title>Caderninho do Mal</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <aside class="sidebar">
-  <div class="brand">Meu<span>Financeiro</span></div>
+  <div class="brand">Caderninho<span> do Mal</span></div>
   <nav>
     <button class="nav active" data-view="dashboard">📊 Dashboard</button>
     <button class="nav" data-view="movimentacoes">💰 Entradas e gastos</button>
@@ -21,7 +21,7 @@
 
 <main>
 <header class="topbar">
-  <div><p class="eyebrow">Controle pessoal</p><h1>Meu financeiro</h1></div>
+  <div><p class="eyebrow">Controle pessoal</p><h1>Caderninho do Mal</h1></div>
   <div class="month"><button id="prevMonth">‹</button><strong id="monthLabel"></strong><button id="nextMonth">›</button></div>
 </header>
 
@@ -79,7 +79,16 @@
     <h2>Adicionar parcelamento</h2>
     <form id="installmentForm" class="form">
       <input id="installmentName" placeholder="Ex.: Celular" required>
-      <input id="installmentTotal" type="number" min="0.01" step="0.01" placeholder="Valor total" required>
+      <select id="installmentMode" aria-label="Forma de informar o valor">
+        <option value="total">Informar valor total</option>
+        <option value="parcel">Informar somente o valor da parcela</option>
+      </select>
+      <div id="installmentTotalWrap">
+        <input id="installmentTotal" type="number" min="0.01" step="0.01" placeholder="Valor total">
+      </div>
+      <div id="installmentValueWrap" hidden>
+        <input id="installmentValue" type="number" min="0.01" step="0.01" placeholder="Valor da parcela">
+      </div>
       <input id="installmentCount" type="number" min="2" max="60" placeholder="Nº de parcelas" required>
       <input id="installmentDate" type="date" required>
       <label class="check"><input id="installmentCredit" type="checkbox" checked> Cartão de crédito</label>
