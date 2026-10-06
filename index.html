@@ -79,12 +79,22 @@
     <h2>Adicionar parcelamento</h2>
     <form id="installmentForm" class="form">
       <input id="installmentName" placeholder="Ex.: Celular" required>
-      <input id="installmentTotal" type="number" min="0.01" step="0.01" placeholder="Valor total" required>
+      <select id="installmentMode" aria-label="Forma de informar o valor">
+        <option value="total">Informar valor total</option>
+        <option value="parcel">Informar somente o valor da parcela</option>
+      </select>
+      <div id="installmentTotalWrap">
+        <input id="installmentTotal" type="number" min="0.01" step="0.01" placeholder="Valor total">
+      </div>
+      <div id="installmentValueWrap" hidden>
+        <input id="installmentValue" type="number" min="0.01" step="0.01" placeholder="Valor da parcela">
+      </div>
       <input id="installmentCount" type="number" min="2" max="60" placeholder="Nº de parcelas" required>
       <input id="installmentDate" type="date" required>
       <label class="check"><input id="installmentCredit" type="checkbox" checked> Cartão de crédito</label>
       <button class="primary">Criar parcelas</button>
     </form>
+    <p class="form-hint">Você pode informar o valor total da compra ou somente o valor que será pago em cada parcela.</p>
   </section>
   <section class="panel"><h2>Parcelas do mês</h2><div id="installmentList"></div></section>
 </section>
